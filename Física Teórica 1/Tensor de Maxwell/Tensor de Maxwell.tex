@@ -1,0 +1,394 @@
+\documentclass[]{article}
+\usepackage{amsmath}  % Permite eliminar enumeración en las ecuaciones
+\usepackage[a4paper, margin=2cm]{geometry} % para los márgenes
+
+\title{\Huge Tensor de Maxwell}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Tensor de Levi-Civita}
+No tengo ni idea que es un tensor pero estas son algunas de las propiedades que voy a necesitar
+para hacer la cuentas:
+
+\begin{itemize}
+    \item $\left[ \vec{a} \times \vec{b} \right]_i = \epsilon_{ijk} a_j b_k$
+    \item $\epsilon_{ijk} = \epsilon_{jki}$ solo con permutaciones cíclicas
+    \item $\epsilon_{jki} \epsilon_{jmn} = \delta_{km} \delta_{in} - \delta_{kn} \delta_{im}$
+\end{itemize}
+
+\section*{Ecuaciones de Maxwell en vacio}
+Las ecuaciones de Maxwell en vacio están dadas por:
+
+\begin{table}[h]
+\begin{tabular}{cc}
+
+% Divergencia de E
+\begin{minipage}{0.4\textwidth}
+\begin{equation}
+    \vec{\nabla} \cdot \vec{E} = 4 \pi \rho
+    \label{eq: div E}
+\end{equation}
+\end{minipage}
+
+&
+\quad
+
+% Rotor de E
+\begin{minipage}{0.4\textwidth}
+\begin{equation}
+    \vec{\nabla} \times \vec{E} = -\frac{1}{c} \frac{\partial \vec{B}}{\partial t}
+    \label{eq: rot E}
+\end{equation}
+\end{minipage}
+
+
+\\
+
+% div de B
+\begin{minipage}{0.4\textwidth}
+\begin{equation}
+    \vec{\nabla} \cdot \vec{B} = 0
+    \label{eq: div B}
+\end{equation}
+\end{minipage}
+
+&
+\quad
+
+% rot de B
+\begin{minipage}{0.4\textwidth}
+\begin{equation}
+    \vec{\nabla} \times \vec{B} = \frac{4 \pi}{c} \vec{J} + \frac{1}{c} \frac{\partial E}{\partial t}
+    \label{eq: rot B}
+\end{equation}
+\end{minipage}
+
+\end{tabular}
+\end{table}
+
+\section*{Fuerza de Lorentz}
+La fuerza de Lorentz en unidades Gaussianas está dado por (\ref{eq: F_em sobre 1 carga}):
+
+\begin{equation}
+    \vec{F}_{EM} = q \left(\vec{E} + \frac{\vec{v}}{c} \times \vec{B}\right)
+    \label{eq: F_em sobre 1 carga}
+\end{equation}
+
+Para el caso de la fuerza aplicada sobre una distribución de carga, en este 
+caso volumétrica, tenemos que reemplazar (\ref{eq: dist vol}) y (\ref{eq: densidad de corriente volumetrica})
+en (\ref{eq: F_em sobre 1 carga}) obteniendo (\ref{eq: F_em sobre distribuciones}):
+
+\begin{equation}
+    q = \rho dv
+    \label{eq: dist vol}
+\end{equation}
+
+\begin{equation}
+    \vec{J} = \rho \vec{v}
+    \label{eq: densidad de corriente volumetrica}
+\end{equation}
+
+\begin{equation}
+    \vec{F}_{EM} = \int_{v}^{} [\rho \vec{E} + \frac{\vec{J}}{c} \times \vec{B}] dv
+    \label{eq: F_em sobre distribuciones}
+\end{equation}
+
+
+\section*{Momento lineal Electromagnético}
+
+Usando la leyes de Newton, podemos escribir las ecuaciones de movimiento a partir de las fuerzas
+que sienten estas. En el caso de una cierta distribución de cargas está dado por (\ref{eq: Newton completa}),
+donde se tiene en cuenta la fuerza dada por (\ref{eq: F_em sobre distribuciones}) y una cierta
+$\vec{F_0}$ que tiene en si todas las demás fuerzas externas:
+
+\begin{equation}
+    \frac{d\vec{P_{M}}}{dt} = \int_{v}^{} [\rho \vec{E} + \frac{\vec{J}}{c} \times \vec{B}] dv + \vec{F_0}
+    \label{eq: Newton completa}
+\end{equation}
+
+En todo el resto de cosas no voy a tener en cuenta la fuerza $\vec{F_0}$, solo es un término que para este
+tema molesta.
+
+\begin{equation}
+    \frac{d\vec{P_{M}}}{dt} = \int_{v}^{} [\rho \vec{E} + \frac{\vec{J}}{c} \times \vec{B}] dv
+    \label{eq: Newton}
+\end{equation}
+
+Se puede reescribir el argumento del término correspondiente a la fuerza electromagnética utilizando
+las ecuaciones (\ref{eq: rho usando maxwell}) y (\ref{eq: j usando maxwell}), logrando obtener 
+(\ref{eq: corchete 1}):
+
+\begin{table}[h]
+\begin{tabular}{cc}
+
+%Ecuacion del rho
+\begin{minipage}{0.4\textwidth}
+\begin{equation}
+    \rho = \frac{1}{4 \pi} (\vec{\nabla} \cdot \vec{E})
+    \label{eq: rho usando maxwell}
+\end{equation}
+\end{minipage}
+
+\quad
+
+%Ecuacion del J
+\begin{minipage}{0.4\textwidth}
+\begin{equation}
+    \vec{J} = \frac{c}{4 \pi} (\vec{\nabla} \times \vec{B}) - \frac{1}{4 \pi} \frac{\partial \vec{E}}{\partial t}
+    \label{eq: j usando maxwell}
+\end{equation}
+\end{minipage}
+
+\end{tabular}
+\end{table}
+
+\begin{equation}
+    \rho \vec{E} + \frac{\vec{J}}{c} \times \vec{B} = \frac{1}{4 \pi} (\vec{\nabla} \cdot \vec{E}) \vec{E} + 
+    \left[ 
+        \frac{1}{4 \pi c} (\vec{\nabla} \times \vec{B}) - \frac{1}{4 \pi} \frac{\partial \vec{E}}{\partial t}
+    \right] \times \vec{B}
+    \label{eq: corchete 1}
+\end{equation}
+
+Si utilizamos el siguiente "truco" (\ref{eq: truco 1}) podemos reescribir (\ref{eq: corchete 1}) como:
+
+
+\begin{equation}
+    \frac{\partial}{\partial t} \left[
+        \vec{E} \times \vec{B}
+    \right] =
+    \partial_t \vec{E} \times \vec{B} + \vec{E} \times \partial_t \vec{B}
+    \label{eq: truco 1}
+\end{equation}
+
+\begin{equation}
+    \rho \vec{E} + \frac{\vec{J}}{c} \times \vec{B} =
+    \frac{1}{4 \pi} (\vec{\nabla} \cdot \vec{E})\vec{E} + \frac{1}{c} \left[
+        \frac{1}{4 \pi} (\vec{\nabla} \times \vec{B}) \times \vec{B} -
+        \frac{1}{4 \pi c} (\partial_t \left[\vec{E} \times \vec{B}\right] - \vec{E} \times \partial_t \vec{B})
+    \right]
+    \label{eq: corchete 2}
+\end{equation}
+
+Si usamos (\ref{eq: rot E}) podemos reemplazar $\partial_t \vec{B}$ a $-c \vec{\nabla} \times \vec{E}$, 
+de forma que reorganizando podemos obtener (\ref{eq: corchete 3}):
+
+\begin{equation}
+    \rho \vec{E} + \frac{\vec{J}}{c} \times \vec{B} =
+    \frac{1}{4 \pi} (\vec{\nabla} \cdot \vec{E})\vec{E} + \frac{1}{c} \left[
+        \frac{1}{4 \pi} (\vec{\nabla} \times \vec{B}) \times \vec{B} -
+        \frac{1}{4 \pi c} (\partial_t \left[\vec{E} \times \vec{B}\right] - 
+        \vec{E} \times c \vec{\nabla} \times \vec{E})
+    \right]
+    \label{eq: corchete 3}
+\end{equation}
+
+La cual podemos reorganizar según (\ref{eq: corchete 4}):
+
+\begin{equation}
+    \frac{1}{4 \pi} (\vec{\nabla} \cdot \vec{E})\vec{E} + 
+    \frac{1}{4 \pi} (\vec{\nabla} \times \vec{E}) \times \vec{E} +
+    \frac{1}{4 \pi} (\vec{\nabla} \times \vec{B}) \times \vec{B} -
+    \frac{1}{4 \pi} \partial_t \left[ \vec{E} \times \vec{B} \right]
+    \label{eq: corchete 4}
+\end{equation}
+
+Donde a (\ref{eq: corchete 4}) podemos sumar $0$, o lo que es lo mismo, 
+$\frac{1}{4 \pi} (\vec{\nabla} \cdot \vec{B})\vec{B}$. De esta forma si colocamos esta expresión en
+(\ref{eq: Newton}) podríamos separar la integral en los siguientes dos términos:
+
+\begin{equation}
+    \frac{d\vec{P_{M}}}{dt} + \frac{1}{4 \pi c} \int_{v}^{} \partial_t \left[
+    \vec{E} \times \vec{B}
+    \right] dv = 
+    \int_{v}^{} \frac{1}{4 \pi} \left[
+    (\vec{\nabla} \cdot \vec{E})\vec{E} + 
+    (\vec{\nabla} \times \vec{E}) \times \vec{E} +
+    (\vec{\nabla} \cdot \vec{B})\vec{B} +
+    (\vec{\nabla} \times \vec{B}) \times \vec{B}
+    \right] dv 
+    \label{eq: Newton 2}
+\end{equation}
+
+Donde de (\ref{eq: Newton 2}) podemos definir el momento electromagnético como:
+
+\begin{equation}
+    \vec{P}_{EM} =
+    \frac{1}{4 \pi c} \int_{v}^{}\left[
+    \vec{E} \times \vec{B}
+    \right] dv 
+\end{equation}
+
+Utilizando esto podemos reescribir (\ref{eq: Newton 2}) como:
+
+\begin{equation}
+    \partial_t (\vec{P}_M + \vec{P}_{EM}) =
+    \int_{-\infty}^{+\infty} \frac{1}{4 \pi} \left[
+    (\vec{\nabla} \cdot \vec{E})\vec{E} + 
+    (\vec{\nabla} \times \vec{E}) \times \vec{E} +
+    (\vec{\nabla} \cdot \vec{B})\vec{B} +
+    (\vec{\nabla} \times \vec{B}) \times \vec{B}
+    \right] dv
+    \label{eq: Newton 3}
+\end{equation}
+
+
+Donde de (\ref{eq: Newton 3}) definimos la matriz de Maxwell a (\ref{eq: matriz de maxwell}):
+
+\begin{equation}
+    \vec{\nabla} \cdot \vec{T} =
+    \left[
+    (\vec{\nabla} \cdot \vec{E})\vec{E} + 
+    (\vec{\nabla} \times \vec{E}) \times \vec{E} +
+    (\vec{\nabla} \cdot \vec{B})\vec{B} +
+    (\vec{\nabla} \times \vec{B}) \times \vec{B}
+    \right]
+    \label{eq: matriz de maxwell}
+\end{equation}
+
+Veamos en notación de índices lo que dice cada término del corchete, primeramente con el término 
+correspondiente al rotor de $\vec{E}$:
+
+\begin{equation}
+    \left[
+    (\vec{\nabla} \times \vec{E}) \times \vec{E}
+    \right]_i =
+    \epsilon_{ijk} (\epsilon_{jmn} \partial_m E_n)E_k = 
+    \epsilon_{ijk} \epsilon_{jmn} E_k \partial_m E_n
+    \label{eq: cosas de tensores 1}
+\end{equation}
+
+Donde en (\ref{eq: cosas de tensores 1}) la propiedad de permutación cíclica sobre tensor de Levi-Civita 
+$\epsilon_{ijk}$ para llevarlo al tensor $\epsilon_{jki}$ poder aplicar la propiedad de las deltas:
+
+\begin{equation*}
+    \left[
+    (\vec{\nabla} \times \vec{E}) \times \vec{E}
+    \right]_i =
+    \epsilon_{ijk} \epsilon_{jmn} E_k \partial_m E_n =
+    \epsilon_{jki} \epsilon_{jmn} E_k \partial_m E_n =
+    (\delta_{km} \delta_{in} - \delta_{kn} \delta_{im}) E_k \partial_m E_n
+    \label{eq: cosas de tensores 2}
+\end{equation*}
+
+\begin{equation}
+    \Leftrightarrow
+    \left[
+    (\vec{\nabla} \times \vec{E}) \times \vec{E}
+    \right]_i =
+    E_k \partial_k E_i - E_k \partial_i E_k
+    \label{eq: indice rotor de E}
+\end{equation}
+
+Ahora veamos el término correspondiente a la divergencia de $\vec{E}$:
+
+\begin{equation}
+    \left[ (\vec{\nabla} \cdot \vec{E}) \vec{E} \right]_i =
+    (\partial_j E_j)E_i
+    \label{eq: indice divergencia de E}
+\end{equation}
+
+Antes de seguir con los términos correspondientes a $\vec{B}$ notemos que en (\ref{eq: matriz de maxwell})
+posee esencialmente dos términos, uno vinculado con la suma de cosas de divergencias y rotores de $\vec{E}$,
+y otro exactamente igual pero reemplazando $\vec{E}$ por $\vec{B}$. Por lo que si calculamos la suma con $\vec{E}$
+de forma directa podemos obtener lo que ocurre con $\vec{B}$.
+
+Para la siguiente cuenta notar que $ijk$ son índices mudos, por lo que puedo llamar $j \equiv k$ sin problemas:
+
+\begin{equation*}
+    \left[
+    (\vec{\nabla} \cdot \vec{E}) \vec{E} + (\vec{\nabla} \times \vec{E}) \vec{E}
+    \right]_i =
+    \partial_j E_j E_i + E_k \partial_k E_i - E_k \partial_i E_k
+\end{equation*}
+
+\begin{equation*}
+    \Leftrightarrow
+    \left[
+    (\vec{\nabla} \cdot \vec{E}) \vec{E} + (\vec{\nabla} \times \vec{E}) \vec{E}
+    \right]_i =
+    E_j \partial_j E_i + \partial_j E_j E_i - E_j \partial_i E_j
+\end{equation*}
+
+\begin{equation*}
+    \Leftrightarrow
+    \left[
+    (\vec{\nabla} \cdot \vec{E}) \vec{E} + (\vec{\nabla} \times \vec{E}) \vec{E}
+    \right]_i =
+    \partial_j (E_i E_j) - E_j \partial_i E_j
+\end{equation*}
+
+\begin{equation*}
+    \Leftrightarrow
+    \left[
+    (\vec{\nabla} \cdot \vec{E}) \vec{E} + (\vec{\nabla} \times \vec{E}) \vec{E}
+    \right]_i =
+    \partial_j (E_i E_j) - \frac{1}{2} \partial_i (E_j E_j)
+\end{equation*}
+
+\begin{equation}
+    \Leftrightarrow
+    \left[
+    (\vec{\nabla} \cdot \vec{E}) \vec{E} + (\vec{\nabla} \times \vec{E}) \vec{E}
+    \right]_i =
+    \partial_i \left[
+    (E_i E_j) - \frac{1}{2} (E_j E_j)\delta_{ij}
+    \right]
+    \label{eq: suma de div y rot de E}
+\end{equation}
+
+Si repetimos todos los mismos procesos con $\vec{B}$ hasta llegar a (\ref{eq: suma de div y rot de E}),
+mirando (\ref{eq: matriz de maxwell}) y (\ref{eq: suma de div y rot de E}) podemos notar que nos queda de 
+factor común $\partial$ en notación de índices, por lo que tomando el factor $(4 \pi)^{-1}$ de 
+(\ref{eq: Newton 3}) podemos definir el Tensor de Maxwell como:
+
+\begin{equation}
+    T_{ij} = \frac{1}{4 \pi} \left[
+    E_i E_j + B_i B_j - \frac{1}{2} \delta_{ij}(\vec{E}\vec{E} + \vec{B}\vec{B})
+    \right]
+    \label{eq: Tensor de maxwell}
+\end{equation}
+
+Por lo que volviendo a (\ref{eq: Newton 3}) podemos reescribir en notación de índices como:
+
+\begin{equation*}
+    \left[
+    \partial_t (\vec{P}_M + \vec{P}_{EM})
+    \right]_i = 
+    \int_{v}^{} (\partial_j T_{ij}) dv
+\end{equation*}
+
+Donde si usamos Stokes (o teorema de la divergencia) obtenemos:
+
+\begin{equation*}
+    \left[
+    \partial_t (\vec{P}_M + \vec{P}_{EM})
+    \right]_i = 
+    \int_{s(v)}^{} T_{ij} n_j ds
+\end{equation*}
+
+\begin{equation}
+    \Leftrightarrow
+    \frac{\partial}{\partial t} (\vec{P}_M + \vec{P}_{EM}) = 
+    \int_{s(v)}^{} \vec{\vec{T}} \hat{n} ds
+    \label{eq: Newton Final}
+\end{equation}
+
+Se puede calcular como es la proyección sobre alguna dirección del
+tensor de Maxwell utilizando la ecuación (\ref{eq: Tensor de maxwell}), esto es
+muy util para resolver la integral dada en ecuación (\ref{eq: Newton Final}) de 
+cada problema en específico:
+
+\begin{equation}
+    \vec{\vec{T}} \cdot \hat{n} =
+    \frac{1}{4 \pi} \left[
+        \vec{E} \left(\vec{E} \cdot \hat{n}\right) +
+        \vec{B} \left(\vec{B} \cdot \hat{n}\right) -
+        \frac{1}{2} \left(E^2 + B^2\right) \hat{n}
+    \right]
+\end{equation}
+
+\end{document}
